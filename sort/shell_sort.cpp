@@ -4,16 +4,13 @@
 #include <ctime>
 #include <chrono>
 #include <cmath>
-#ifndef MAX
-#define MAX 10000
-#endif
+#include "timer.hpp"
+#include "helper.hpp"
 
 using std::vector;
 using std::cout;
 
-void print(const vector<int> vec);
 void shell_sort(vector<int> &vec);
-vector<int> generate_random_vector(const int size);
 
 int main(int argc, char** argv)
 {
@@ -22,21 +19,14 @@ int main(int argc, char** argv)
   #ifdef DEBUG
   cout << "Input vector: \n"; print(in_vec);
   #endif
-  auto start = std::chrono::high_resolution_clock::now();
+  Timer t;
   shell_sort(in_vec);
-  auto end = std::chrono::high_resolution_clock::now();
-  auto duration = std::chrono::duration_cast<std::chrono::nanoseconds>(end-start).count();
-  cout << "Shell sort spend " << duration*1e-6 << " ms\n";
+  t.set_tock();
+  cout << "Shell sort spend " << t.get_ms() << " ms\n";
   #ifdef DEBUG
   cout << "Sored vector: \n"; print(in_vec);
   #endif
   return 0;
-}
-
-void print(const vector<int> vec){
-  for(int i=0; i<vec.size(); ++i)
-    cout << vec[i] << " ";
-  cout << "\n";
 }
 
 void shell_sort(vector<int> &vec){
@@ -53,12 +43,4 @@ void shell_sort(vector<int> &vec){
     }
     gap >>= 1; // gap /= 2
   }
-}
-
-vector<int> generate_random_vector(const int size){
-  vector<int> res;
-  for(int i=0; i<size; ++i){
-    res.push_back(rand()%MAX);
-  }
-  return res;
 }
