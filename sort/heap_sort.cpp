@@ -6,24 +6,18 @@
 #include <ctime>
 #include <cmath>
 #include <chrono>
-#include <queue>
-#include <stack>
 #include <algorithm>
-#include "tree.cpp"
-#include "timer.cpp"
-#ifndef MAX
-#define MAX 10000
-#endif
+#include "tree.hpp"
+#include "timer.hpp"
+#include "helper.hpp"
 
 using std::cout;
 using std::vector;
 using std::queue;
 using std::stack;
 
-void print(const vector<int> vec);
 void heap_sort(vector<int> &vec);
-void heap_sort_STD(vector<int> &vec);
-vector<int> generate_random_vector(const int size);
+void heap_sort(vector<int> &vec);
 
 int main(int argc, char** argv)
 {
@@ -34,31 +28,14 @@ int main(int argc, char** argv)
   cout << "Input vector: \n"; print(in_vec);
   #endif
   Timer t;
-  heap_sort_STD(in_vec);
+  heap_sort(in_vec);
   t.set_tock();
-  cout << "Heap sort (STD) spend " << t.get_ms() << " ms\n";
-  t.reset();
-  heap_sort(cp_vec);
-  t.set_tock();
-  cout << "Heap sort (Tree) spend " << t.get_ms() << " ms\n";
+  cout << "Heap sort (STL) spend " << t.get_ms() << " ms\n";
   #ifdef DEBUG
   cout << "Sort result: "; print(in_vec);
   #endif
+  cout << "Is sort? " << check_sort(in_vec) << "\n";
   return 0;
-}
-
-void print(const vector<int> vec){
-  for(int i=0; i<vec.size(); ++i)
-    cout << vec[i] << " ";
-  cout << "\n";
-}
-
-vector<int> generate_random_vector(const int size){
-  vector<int> res;
-  for(int i=0; i<size; ++i){
-    res.push_back(rand()%MAX);
-  }
-  return res;
 }
 
 void heap_sort(vector<int> &vec){
@@ -83,9 +60,9 @@ void heap_sort(vector<int> &vec){
   vec[0] = (tree->right->val>tree->left->val?tree->left->val:tree->right->val);
 }
 
-void heap_sort_STD(vector<int> &vec){
-  for(int i=vec.size(); i>=0; --i){
+void heap_sort_STL(vector<int> &vec){
+  for(int i=0; i<vec.size(); ++i){
     std::make_heap(vec.begin(), vec.begin()+i);
-    vec[i] = vec.back();
+    swap(vec, 0, vec.size()-i);
   }
 }

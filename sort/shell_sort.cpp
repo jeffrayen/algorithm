@@ -26,7 +26,7 @@ int main(int argc, char** argv)
   shell_sort(in_vec);
   auto end = std::chrono::high_resolution_clock::now();
   auto duration = std::chrono::duration_cast<std::chrono::nanoseconds>(end-start).count();
-  cout << "Cocktail sort spend " << duration*1e-6 << " ms\n";
+  cout << "Shell sort spend " << duration*1e-6 << " ms\n";
   #ifdef DEBUG
   cout << "Sored vector: \n"; print(in_vec);
   #endif
