@@ -38,6 +38,7 @@ bool check_sort(const vector<int> vec){
 }
 
 vector<int> generate_random_vector(const int size){
+  srand(time(NULL));
   vector<int> res;
   res.reserve(size);
   for(int i=0; i<size; ++i){

@@ -1,42 +1,32 @@
 #include <iostream>
 #include <vector>
-#include <cstdlib>
-#include <ctime>
-#include <chrono>
-#define MAX 10000
+#include "helper.hpp"
+#include "timer.hpp"
 
 using std::vector;
 using std::cout;
 
-inline void swap(vector<int> &vec, int i, int j){
-  if(vec[i]!=vec[j]){
-    vec[i] = vec[i]^vec[j];
-    vec[j] = vec[i]^vec[j];
-    vec[i] = vec[i]^vec[j];
-  }
-}
-void print(const vector<int> vec);
 void bubble_sort(vector<int> &vec);
-vector<int> generate_random_vector(const int size);
 
 int main(int argc, char** argv)
 {
-  srand(time(NULL));
+  if(argc<2){
+    std::cerr << "\033[1;31mNo enough input arguments, abort...\n\033[0m";
+    exit(EXIT_FAILURE);
+  }
   vector<int> in_vec = generate_random_vector(atoi(argv[1]));
-  //cout << "Input vector: \n"; print(in_vec);
-  auto start = std::chrono::high_resolution_clock::now();
+  #ifdef DEBUG
+  cout << "Input vector: \n"; print(in_vec);
+  #endif
+  Timer t;
   bubble_sort(in_vec);
-  auto end = std::chrono::high_resolution_clock::now();
-  auto duration = std::chrono::duration_cast<std::chrono::nanoseconds>(end-start).count();
-  cout << "Bubble sort spend " << duration*1e-6 << " ms\n";
-  //cout << "Sorted vector: \n"; print(in_vec);
+  t.set_tock();
+  cout << "Bubble sort spend " << t.get_ms() << " ms\n";
+  #ifdef DEBUG
+  cout << "Sorted vector: \n"; print(in_vec);
+  #endif
+  check_sort(in_vec);
   return 0;
-}
-
-void print(const vector<int> vec){
-  for(int i=0; i<vec.size(); ++i)
-    cout << vec[i] << " ";
-  cout << "\n";
 }
 
 void bubble_sort(vector<int> &vec){
@@ -50,12 +40,4 @@ void bubble_sort(vector<int> &vec){
     }
     if(best_case) break;
   }
-}
-
-vector<int> generate_random_vector(const int size){
-  vector<int> res;
-  for(int i=0; i<size; ++i){
-    res.push_back(rand()%MAX);
-  }
-  return res;
 }

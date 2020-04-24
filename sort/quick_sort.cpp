@@ -1,9 +1,6 @@
 #include <iostream>
 #include <vector>
-#include <cstdlib>
 #include <cassert>
-#include <ctime>
-#include <chrono>
 #include <algorithm>
 #include "timer.hpp"
 #include "write_file.hpp"
@@ -16,24 +13,25 @@ using std::cout;
 void quick_sort(vector<int> &vec, int left, int right);
 void quick_insertion(vector<int> &vec, int first, int last);
 void _medianLeft(vector<int> &vec, int left, int right);
-vector<int> generate_random_vector(const int size);
 
 int main(int argc, char** argv)
 {
-  srand(time(NULL));
+  if(argc<2){
+    std::cerr << "\033[1;31mNo enough input arguments, abort...\n\033[0m";
+    exit(EXIT_FAILURE);
+  }
   vector<int> in_vec = generate_random_vector(atoi(argv[1]));
-  //vector<int> in_vec{5,8,6,2,8,5,0,5,6,6,7,5,6,2,8,2,4,4,2,4,5,9,2,0,9,5,5,0,9,9,7,4,9,4,8,9};
   #ifdef DEBUG
   write_file(in_vec, "unsort_vec.csv");
   #endif
   Timer t;
   quick_sort(in_vec, 0, in_vec.size()-1);
   t.set_tock();
-  cout << "Quick sort Spend " << t.get_ms() << " ms\n";
+  cout << "Quick sort spend " << t.get_ms() << " ms\n";
   #ifdef DEBUG
   write_file(in_vec, "sort_vec.csv");
   #endif
-  cout << "Is sort? " << check_sort(in_vec) << "\n";
+  check_sort(in_vec);
   return 0;
 }
 
