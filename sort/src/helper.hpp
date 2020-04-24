@@ -3,22 +3,12 @@
 #include <cstdlib>
 #include <ctime>
 #include <chrono>
-#include <cmath>
 #ifndef MAX
 #define MAX 1000000
 #endif
 
 using std::vector;
 using std::cout;
-
-inline void swap(vector<int> &vec, int idx_1, int idx_2){
-  if(idx_1==idx_2) return;
-  if(vec[idx_1]!=vec[idx_2]){
-    vec[idx_1] = vec[idx_1]^vec[idx_2];
-    vec[idx_2] = vec[idx_1]^vec[idx_2];
-    vec[idx_1] = vec[idx_1]^vec[idx_2];
-  }
-}
 
 void print(const vector<int> vec){
   for(int i=0; i<vec.size(); ++i)
@@ -38,11 +28,12 @@ bool check_sort(const vector<int> vec){
 }
 
 vector<int> generate_random_vector(const int size){
-  srand(time(NULL));
   vector<int> res;
-  res.reserve(size);
+  //res.reserve(size);
+  cout << "gen\n";
   for(int i=0; i<size; ++i){
     res.push_back(rand()%MAX);
   }
+  cout << "return\n";
   return res;
 }
